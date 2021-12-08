@@ -786,6 +786,24 @@ Public Class SQLiteManager
         ' SQLiteファイルへの書込み
         WriteSQLiteData(dbPath, dbName, sqlsvrManager.arrSQLsrv_M_CABINET, context)
 
+        ' エリアマスタ        2021/12 ADD
+        ' M_AREA情報書込み
+        _strTableName = "M_AREA"
+        ' SQLiteファイルへの書込み
+        WriteSQLiteData(dbPath, dbName, sqlsvrManager.arrSQLsrv_M_AREA, context)
+
+        ' 職種マスタ         2021/12 ADD
+        ' M_JOB情報書込み
+        _strTableName = "M_JOB"
+        ' SQLiteファイルへの書込み
+        WriteSQLiteData(dbPath, dbName, sqlsvrManager.arrSQLsrv_M_JOB, context)
+
+        ' マッチング         2021/12 ADD
+        ' T_MATCHING情報書込み
+        _strTableName = "T_MATCHING"
+        ' SQLiteファイルへの書込み
+        WriteSQLiteData(dbPath, dbName, sqlsvrManager.arrSQLsrv_T_MATCHING, context)
+
     End Sub
 
 End Class

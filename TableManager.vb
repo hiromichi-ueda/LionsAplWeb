@@ -589,6 +589,35 @@ Public Class TableManager
                 _lstFld.Add("J_CommitteeName3")
                 _lstFld.Add("J_CommitteeFlg3")
                 '------------------
+                '2021/12/06 ADD
+            Case "M_AREA"
+                '------------------
+                _lstFld.Add("SortNo")
+                _lstFld.Add("AreaName")
+                '------------------
+                '2021/12/06 ADD
+            Case "M_JOB"
+                '------------------
+                _lstFld.Add("JobCode")
+                _lstFld.Add("JobName")
+                '------------------
+                '2021/12/06 ADD
+            Case "T_MATCHING"
+                '------------------
+                _lstFld.Add("DataNo")
+                _lstFld.Add("ClubCode")
+                _lstFld.Add("ClubNameShort")
+                _lstFld.Add("MemberName")
+                _lstFld.Add("CompanyName")
+                _lstFld.Add("Comment")
+                _lstFld.Add("Address")
+                _lstFld.Add("Tel")
+                _lstFld.Add("HP")
+                _lstFld.Add("FileName")
+                _lstFld.Add("Area")
+                _lstFld.Add("JobCode")
+                _lstFld.Add("JobName")
+                '------------------
 
         End Select
     End Sub

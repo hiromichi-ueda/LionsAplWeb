@@ -53,6 +53,9 @@ Public Class SQLServerManager
     Public arrSQLsrv_M_DISTRICTOFFICER As New ArrayList     ' SQLsrv情報(M_DISTRICTOFFICER用)
     Public arrSQLsrv_M_CABINET As New ArrayList             ' SQLsrv情報(M_CABINET用)
     Public arrSQLsrv_M_CLUB As New ArrayList                ' SQLsrv情報(M_CLUB用)
+    Public arrSQLsrv_M_AREA As New ArrayList                ' SQLsrv情報(M_AREA用)     2021/12 ADD
+    Public arrSQLsrv_M_JOB As New ArrayList                 ' SQLsrv情報(M_JOB用)     2021/12 ADD
+    Public arrSQLsrv_T_MATCHING As New ArrayList            ' SQLsrv情報(T_MATCHING用)     2021/12 ADD
     'クラブ用
     Public arrSQLsrv_T_CLUBSLOGAN As New ArrayList          ' SQLsrv情報(T_CLUBSLOGAN用)
     Public arrSQLsrv_T_MEETINGSCHEDULE As New ArrayList     ' SQLsrv情報(T_MEETINGSCHEDULE用)
@@ -73,6 +76,9 @@ Public Class SQLServerManager
     Public UpFlg_T_MAGAZINEBUY As Boolean
     Public UpFlg_M_CABINET As Boolean
     Public UpFlg_M_CLUB As Boolean
+    Public UpFlg_M_AREA As Boolean      '2021/12 ADD
+    Public UpFlg_M_JOB As Boolean      '2021/12 ADD
+    Public UpFlg_T_MATCHING As Boolean      '2021/12 ADD
     Public UpFlg_T_CLUBSLOGAN As Boolean
     Public UpFlg_T_MEETINGSCHEDULE As Boolean
     Public UpFlg_T_DIRECTOR As Boolean
@@ -517,6 +523,18 @@ Public Class SQLServerManager
                     ' キャビネット構成
                     ' SQLServerの(M_CABINETテーブルから情報を取得する
                     GetM_CABINET(_sqlCommand)
+
+                    ' エリアマスタ    2021/12 ADD
+                    ' SQLServerの(M_AREAテーブルから情報を取得する
+                    GetM_AREA(_sqlCommand)
+
+                    ' 職種マスタ    2021/12 ADD
+                    ' SQLServerの(M_JOBテーブルから情報を取得する
+                    GetM_JOB(_sqlCommand)
+
+                    ' マッチング    2021/12 ADD
+                    ' SQLServerの(M_CABINETテーブルから情報を取得する
+                    GetT_MATCHING(_sqlCommand)
 
                 Catch ex As Exception
                     ' エラーログ出力
@@ -1118,6 +1136,95 @@ Public Class SQLServerManager
 
     End Sub
 
+    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    ''' <summary>
+    ''' SQLServerのM_AREAテーブルから情報を取得する
+    ''' </summary>
+    ''' <param name="sqlCommand"></param>
+    ''' <remarks>2021/12 ADD</remarks>
+    Private Sub GetM_AREA(ByRef sqlCommand As SqlCommand)
+        Dim sqlString As New clsSQLString
+
+        Try
+            ' フィールド名セット
+            _strTableName = "M_AREA"
+            ' SQL文字列クリア
+            sqlString.Remove()
+            ' SQL文字列作成
+            sqlString.Append("SELECT * FROM M_AREA")
+            ' SQLコマンド文字列追加
+            sqlCommand.CommandText = sqlString.ToStr
+            ' SQLServerからデータを取得
+            GetSQLServerData(sqlCommand, arrSQLsrv_M_AREA)
+
+        Catch ex As Exception
+            ' エラーログ出力
+            _logger.Error("●(SQLserver " & _strTableName & " より データを取得)例外エラー[sql:" & sqlString.ToStr & "]", ex)
+            Throw
+        End Try
+
+    End Sub
+
+    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    ''' <summary>
+    ''' SQLServerのM_JOBテーブルから情報を取得する
+    ''' </summary>
+    ''' <param name="sqlCommand"></param>
+    ''' <remarks>2021/12 ADD</remarks>
+    Private Sub GetM_JOB(ByRef sqlCommand As SqlCommand)
+        Dim sqlString As New clsSQLString
+
+        Try
+            ' フィールド名セット
+            _strTableName = "M_JOB"
+            ' SQL文字列クリア
+            sqlString.Remove()
+            ' SQL文字列作成
+            sqlString.Append("SELECT * FROM M_JOB")
+            ' SQLコマンド文字列追加
+            sqlCommand.CommandText = sqlString.ToStr
+            ' SQLServerからデータを取得
+            GetSQLServerData(sqlCommand, arrSQLsrv_M_JOB)
+
+        Catch ex As Exception
+            ' エラーログ出力
+            _logger.Error("●(SQLserver " & _strTableName & " より データを取得)例外エラー[sql:" & sqlString.ToStr & "]", ex)
+            Throw
+        End Try
+
+    End Sub
+
+    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    ''' <summary>
+    ''' SQLServerのT_MATCHINGテーブルから情報を取得する
+    ''' </summary>
+    ''' <param name="sqlCommand"></param>
+    ''' <remarks>2021/12 ADD</remarks>
+    Private Sub GetT_MATCHING(ByRef sqlCommand As SqlCommand)
+        Dim sqlString As New clsSQLString
+
+        Try
+            ' フィールド名セット
+            _strTableName = "T_MATCHING"
+            ' SQL文字列クリア
+            sqlString.Remove()
+            ' SQL文字列作成
+            sqlString.Append("SELECT * FROM T_MATCHING WHERE " &
+                             "DelFlg = '0' AND " &
+                             "OpenFlg = '1'")
+            ' SQLコマンド文字列追加
+            sqlCommand.CommandText = sqlString.ToStr
+            ' SQLServerからデータを取得
+            GetSQLServerData(sqlCommand, arrSQLsrv_T_MATCHING)
+
+        Catch ex As Exception
+            ' エラーログ出力
+            _logger.Error("●(SQLserver " & _strTableName & " より データを取得)例外エラー[sql:" & sqlString.ToStr & "]", ex)
+            Throw
+        End Try
+
+    End Sub
+
 
     '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     ' クラブ用読込
@@ -1447,6 +1554,9 @@ Public Class SQLServerManager
         UpFlg_T_MAGAZINEBUY = True
         UpFlg_M_CABINET = True
         UpFlg_M_CLUB = True
+        UpFlg_M_AREA = True         '2021/12 ADD
+        UpFlg_M_JOB = True          '2021/12 ADD
+        UpFlg_T_MATCHING = True     '2021/12 ADD
         UpFlg_T_CLUBSLOGAN = True
         UpFlg_T_MEETINGSCHEDULE = True
         UpFlg_T_DIRECTOR = True
@@ -1454,7 +1564,6 @@ Public Class SQLServerManager
         UpFlg_T_INFOMATION = True
         UpFlg_M_MEMBER = True
     End Sub
-
 
 
     '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
